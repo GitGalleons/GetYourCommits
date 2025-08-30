@@ -2,7 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://api.github.com; img-src 'self' data: https://avatars.githubusercontent.com; script-src 'self'; style-src 'self' 'unsafe-inline';">
+  <!--
+    DEVELOPMENT NOTE:
+    The original CSP used `script-src 'self'` which blocks inline scripts that some dev servers (e.g. live-server)
+    insert for hot reload / live reload. For local development you can temporarily allow inline scripts with
+    'unsafe-inline' (below). DO NOT ship this relaxed CSP to production.
+
+    Production recommendation:
+    - Remove 'unsafe-inline' and set a strict CSP via your web server (HTTP header).
+    - Prefer using a nonce generated server-side (see README + example Express middleware below) or use
+      hashed inline script(s) if you must include inline scripts.
+  -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https://api.github.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https://avatars.githubusercontent.com; style-src 'self' 'unsafe-inline';">
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GetCommits — GitHub Repository Explorer</title>
   <link rel="stylesheet" href="./styles/style.css" />
@@ -45,7 +57,8 @@
         </label>
         <label>
           Personal Access Token
-          <input id="private-token" type="password" placeholder="ghp_xxx (will be stored in sessionStorage for demo only)" />
+          <!-- added autocomplete for password-like input -->
+          <input id="private-token" type="password" autocomplete="current-password" placeholder="ghp_xxx (will be stored in sessionStorage for demo only)" />
         </label>
         <div class="token-note">Production: prefer server-side proxy. See README for guidance.</div>
         <div class="form-actions">
@@ -68,5 +81,10 @@
     </footer>
   </main>
   <script type="module" src="./js/app.js"></script>
+  <!-- If you run a dev server that injects inline scripts, either:
+       - Use a dev server that injects an external script (e.g. Vite) OR
+       - Configure your live-server to not inject the script, OR
+       - Keep the relaxed CSP above only for local development.
+  -->
 </body>
 </html>
