@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://api.github.com; img-src 'self' data: https://avatars.githubusercontent.com; script-src 'self'; style-src 'self' 'unsafe-inline';">
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GetCommits — GitHub Repository Explorer</title>
+  <link rel="stylesheet" href="./styles/style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app-header glass">
+      <h1>GetCommits</h1>
+      <p class="subtitle">Explore branches & commits — public & private repos</p>
+    </header>
+
+    <section class="controls glass">
+      <div class="tabs">
+        <button id="tab-public" class="tab active">Public</button>
+        <button id="tab-private" class="tab">Private</button>
+      </div>
+
+      <form id="form-public" class="form">
+        <label>
+          Owner
+          <input id="public-owner" type="text" placeholder="owner (e.g. facebook)" />
+        </label>
+        <label>
+          Repository
+          <input id="public-repo" type="text" placeholder="repo (e.g. react)" />
+        </label>
+        <div class="form-actions">
+          <button id="btn-search-public" type="button">Search</button>
+        </div>
+      </form>
+
+      <form id="form-private" class="form hidden">
+        <label>
+          Owner
+          <input id="private-owner" type="text" placeholder="owner" />
+        </label>
+        <label>
+          Repository
+          <input id="private-repo" type="text" placeholder="repo" />
+        </label>
+        <label>
+          Personal Access Token
+          <input id="private-token" type="password" placeholder="ghp_xxx (will be stored in sessionStorage for demo only)" />
+        </label>
+        <div class="token-note">Production: prefer server-side proxy. See README for guidance.</div>
+        <div class="form-actions">
+          <button id="btn-search-private" type="button">Search (Private)</button>
+          <button id="btn-clear-token" type="button" class="secondary">Clear Token</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="repo glass" id="repo-section" aria-live="polite">
+      <!-- repo header and controls injected here -->
+    </section>
+
+    <section class="commits glass" id="commits-section">
+      <!-- commits list injected here -->
+    </section>
+
+    <footer class="app-footer">
+      <small>Built with HTML, CSS, ES Modules. Demo server available for token proxy.</small>
+    </footer>
+  </main>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
